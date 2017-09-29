@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tic Tac Toe</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#XO input").css({ 'height': '100px', 'width': '100px' });
+            $("#btn1").click(function () {
+                $(this).val('X').css({ 'font-size': '50px' });
+            });
+            $("#btn2").click(function () {
+                $(this).val('X').css({ 'font-size': '50px' });
+            });
+            $("#btn3").click(function () {
+                $(this).val('X').css({ 'font-size': '50px' });
+            });
+            $("#btn4").click(function () {
+                $(this).val('X').css({ 'font-size': '50px' });
+            });
+            $("#btn5").click(function () {
+                $(this).val('X').css({ 'font-size': '50px' });
+            });
+            $("#btn6").click(function () {
+                $(this).val('X').css({ 'font-size': '50px' });
+            });
+            $("#btn7").click(function () {
+                $(this).val('X').css({ 'font-size': '50px' });
+            });
+            $("#btn8").click(function () {
+                $(this).val('X').css({ 'font-size': '50px' });
+            });
+            $("#btn9").click(function () {
+                $(this).val('X').css({ 'font-size': '50px' });
+            });
+            $("#btnNewGame").click(function () {
+                $("#btn1").val('');
+                $("#btn2").val('');
+                $("#btn3").val('');
+                $("#btn4").val('');
+                $("#btn5").val('');
+                $("#btn6").val('');
+                $("#btn7").val('');
+                $("#btn8").val('');
+                $("#btn9").val('');
+            });
+        });
+    </script>
+
+</head>
+<body>
+    <div id="XO">
+        <input type="button" id="btn1" class="btn"/>
+        <input type="button" id="btn2" />
+        <input type="button" id="btn3" /><br /><br />
+        <input type="button" id="btn4" />
+        <input type="button" id="btn5" />
+        <input type="button" id="btn6" /><br /><br />
+        <input type="button" id="btn7" />
+        <input type="button" id="btn8" />
+        <input type="button" id="btn9" /><br />
+    </div>
+    <input type="button" id="btnNewGame" value="New Game" />
+</body>
+</html>
