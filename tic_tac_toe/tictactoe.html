@@ -2,64 +2,69 @@
 <html>
 <head>
     <title>Tic Tac Toe</title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <style>
+        .boardBtn { height: 100px; width: 100px }
+        .winText { color: red }
+    </style>
     <script>
         $(document).ready(function () {
-            $("#XO input").css({ 'height': '100px', 'width': '100px' });
-            $("#btn1").click(function () {
-                $(this).val('X').css({ 'font-size': '50px' });
+
+            var $emptyButtonGrid = $("#buttonGrid").clone();
+            var $dim;
+
+            // Define CSS for buttonGrid
+            $("#buttonGrid input").css({
+              'height': '1000px',
+              'width': '1000px'
             });
-            $("#btn2").click(function () {
-                $(this).val('X').css({ 'font-size': '50px' });
+
+            // Define CSS for btn
+            $("#btn").click(function() {
+                $(this).val('X').css({
+                'font-size': '50px'});
             });
-            $("#btn3").click(function () {
-                $(this).val('X').css({ 'font-size': '50px' });
+
+            // Empty the form when user goes to enter a dimension
+            $("#gridSize").click(function() {
+                $("#gridSize").attr("value", "");
             });
-            $("#btn4").click(function () {
-                $(this).val('X').css({ 'font-size': '50px' });
+
+            // Change the value of the dim upon submit button and activate new game
+            $("#buildGridBtn").click(function() {
+                $dim = $("#gridSize").val();
+                $("#newGameBtn").removeAttr("disabled");
             });
-            $("#btn5").click(function () {
-                $(this).val('X').css({ 'font-size': '50px' });
+
+            // Reset the grid upon click of newGameBtn
+            $("#newGameBtn").click(function() {
+                $("#buttonGrid").replaceWith($emptyButtonGrid.clone());
+                $("gridSize").val("Enter a number [3-10]");  // Not sure why this doesn't work
+                $("#newGameBtn").attr("disabled", "true");
             });
-            $("#btn6").click(function () {
-                $(this).val('X').css({ 'font-size': '50px' });
+
+            // Change the number of buttons to match the dimensions
+            $("#buildGridBtn").click(function() {
+                for (var i=0; i<$dim; i++) {
+                    for (var j=0; j<$dim; j++) {
+                        var id = "btn" + i.toString() + j.toString();
+                        var $button = $('<input type="button" id=' + id + ' class="btn"/>');
+                        $button.appendTo("#buttonGrid");
+                    }
+                    var $break = $("<br/><br/>")
+                    $break.appendTo("#buttonGrid");
+                }
             });
-            $("#btn7").click(function () {
-                $(this).val('X').css({ 'font-size': '50px' });
-            });
-            $("#btn8").click(function () {
-                $(this).val('X').css({ 'font-size': '50px' });
-            });
-            $("#btn9").click(function () {
-                $(this).val('X').css({ 'font-size': '50px' });
-            });
-            $("#btnNewGame").click(function () {
-                $("#btn1").val('');
-                $("#btn2").val('');
-                $("#btn3").val('');
-                $("#btn4").val('');
-                $("#btn5").val('');
-                $("#btn6").val('');
-                $("#btn7").val('');
-                $("#btn8").val('');
-                $("#btn9").val('');
-            });
+
+            // Place an X in a button that the user selects
+
         });
     </script>
-
 </head>
 <body>
-    <div id="XO">
-        <input type="button" id="btn1" class="btn"/>
-        <input type="button" id="btn2" />
-        <input type="button" id="btn3" /><br /><br />
-        <input type="button" id="btn4" />
-        <input type="button" id="btn5" />
-        <input type="button" id="btn6" /><br /><br />
-        <input type="button" id="btn7" />
-        <input type="button" id="btn8" />
-        <input type="button" id="btn9" /><br />
-    </div>
-    <input type="button" id="btnNewGame" value="New Game" />
+    <input type="button" id="buildGridBtn" value="Submit"/>
+    <input type="text" id="gridSize" value="Enter a number [3-10]"/>
+    <input type="button" id="newGameBtn" value="New Game" disabled="true"/>
+    <div id="buttonGrid"></div>
 </body>
 </html>
