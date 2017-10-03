@@ -4,26 +4,16 @@
     <title>Tic Tac Toe</title>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <style>
-        .boardBtn { height: 100px; width: 100px }
+        .gameBtn { height: 100px; width: 100px }
         .winText { color: red }
+        #buttonGrid { height: 10000px; width: 10000px }
     </style>
     <script>
 
         $(document).ready(function () {
 
-            // Define CSS for buttonGrid
-            $("#buttonGrid input").css({
-              'height': '1000px',
-              'width': '1000px'
-            });
-
-            // Define CSS for btn
-            $(".gameBtn").click(function() {
-                $(this).val('X').css({
-                'font-size': '50px'});
-            });
-
             var $dim;
+            var player = 'X';
 
             // Check to see if a player has won the game
             var checkWin = function(player) {
@@ -76,7 +66,7 @@
                         var $button = $('<input type="button" id=' + id + ' class="gameBtn"/>');
                         $button.appendTo("#buttonGrid");
                     }
-                    var $break = $("<br/><br/>")
+                    var $break = $("<br/>")
                     $break.appendTo("#buttonGrid");
                 }
             });
@@ -91,9 +81,12 @@
     </script>
 </head>
 <body>
-    <input type="button" id="buildGridBtn" value="Submit"/>
-    <input type="text" id="gridSize" value="Enter a number [3-10]"/>
-    <input type="button" id="newGameBtn" value="New Game" disabled="true"/>
+    <div id="header">
+        <input type="button" id="buildGridBtn" value="Submit"/>
+        <input type="text" id="gridSize" value="Enter a number [3-10]"/>
+        <input type="button" id="newGameBtn" value="New Game" disabled="true"/>
+        <br/><br/>
+    </div>
     <div id="buttonGrid"></div>
 </body>
 </html>
