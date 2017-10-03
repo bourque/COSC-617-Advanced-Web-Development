@@ -8,6 +8,24 @@
         .winText { color: red }
     </style>
     <script>
+
+
+        // Check to see if a player has won the game
+        var checkWin = function(player) {
+            console.log('notImplemented');
+        }
+
+
+        // Place an O randomly in an open square and check to see if O has won
+        var playOTurn = function (){
+            $.fn.random = function() {
+                return this.eq(Math.floor(Math. random() * this.length));
+            };
+            randBtn = $('.boardBtn:not(:disabled)'). random().val('O').css({'font- size': '50px'}).prop("disabled", true);
+            //Check for X Win
+            checkWin('O');
+        };
+
         $(document).ready(function () {
 
             var $emptyButtonGrid = $("#buttonGrid").clone();
@@ -20,7 +38,7 @@
             });
 
             // Define CSS for btn
-            $("#btn").click(function() {
+            $(".gameBtn").click(function() {
                 $(this).val('X').css({
                 'font-size': '50px'});
             });
@@ -47,8 +65,8 @@
             $("#buildGridBtn").click(function() {
                 for (var i=0; i<$dim; i++) {
                     for (var j=0; j<$dim; j++) {
-                        var id = "btn" + i.toString() + j.toString();
-                        var $button = $('<input type="button" id=' + id + ' class="btn"/>');
+                        var id = "btn_" + i.toString() + j.toString();
+                        var $button = $('<input type="button" id=' + id + ' class="gameBtn"/>');
                         $button.appendTo("#buttonGrid");
                     }
                     var $break = $("<br/><br/>")
@@ -57,6 +75,10 @@
             });
 
             // Place an X in a button that the user selects
+            $(document).on("click", ".gameBtn", function() {
+                $(this).attr("value", "X");
+                checkWin('X');
+            });
 
         });
     </script>
