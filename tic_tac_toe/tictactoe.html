@@ -9,27 +9,7 @@
     </style>
     <script>
 
-
-        // Check to see if a player has won the game
-        var checkWin = function(player) {
-            console.log('notImplemented');
-        }
-
-
-        // Place an O randomly in an open square and check to see if O has won
-        var playOTurn = function (){
-            $.fn.random = function() {
-                return this.eq(Math.floor(Math. random() * this.length));
-            };
-            randBtn = $('.boardBtn:not(:disabled)'). random().val('O').css({'font- size': '50px'}).prop("disabled", true);
-            //Check for X Win
-            checkWin('O');
-        };
-
         $(document).ready(function () {
-
-            var $emptyButtonGrid = $("#buttonGrid").clone();
-            var $dim;
 
             // Define CSS for buttonGrid
             $("#buttonGrid input").css({
@@ -43,6 +23,30 @@
                 'font-size': '50px'});
             });
 
+            var $dim;
+
+            // Check to see if a player has won the game
+            var checkWin = function(player) {
+                console.log('notImplemented');
+            };
+
+            // Reset the game
+            var newGame = function() {
+                $("#buttonGrid").replaceWith('<div id="buttonGrid"></div>');
+                $("#gridSize").val("");
+                $("#newGameBtn").attr("disabled", "true");
+            };
+
+            // Place an O randomly in an open square and check to see if O has won
+            var playOTurn = function (){
+                $.fn.random = function() {
+                    return this.eq(Math.floor(Math. random() * this.length));
+                };
+                randBtn = $('.boardBtn:not(:disabled)'). random().val('O').css({'font- size': '50px'}).prop("disabled", true);
+                //Check for X Win
+                checkWin('O');
+            };
+
             // Empty the form when user goes to enter a dimension
             $("#gridSize").click(function() {
                 $("#gridSize").attr("value", "");
@@ -50,15 +54,18 @@
 
             // Change the value of the dim upon submit button and activate new game
             $("#buildGridBtn").click(function() {
-                $dim = $("#gridSize").val();
-                $("#newGameBtn").removeAttr("disabled");
+                $userInput = Number($("#gridSize").val());
+                if (Number.isInteger($userInput) && $userInput >= 3 && $userInput <=10) {
+                    $dim = $("#gridSize").val();
+                    $("#newGameBtn").removeAttr("disabled");
+                } else {
+                    alert("Please enter a integer between 3 and 10");
+                };
             });
 
             // Reset the grid upon click of newGameBtn
             $("#newGameBtn").click(function() {
-                $("#buttonGrid").replaceWith($emptyButtonGrid.clone());
-                $("gridSize").val("Enter a number [3-10]");  // Not sure why this doesn't work
-                $("#newGameBtn").attr("disabled", "true");
+                newGame();
             });
 
             // Change the number of buttons to match the dimensions
