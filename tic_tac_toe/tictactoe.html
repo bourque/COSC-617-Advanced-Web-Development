@@ -36,7 +36,10 @@
                     }
                     var $break = $("<br/>")
                     $break.appendTo("#buttonGrid");
-                }
+                };
+
+                // Deactivate the submit button
+                $("buildGridBtn").prop("disabled", true);  // Not sure why this doesnt work
             }
 
 
@@ -54,14 +57,25 @@
             };
 
 
-            // Place an O randomly in an open square and check to see if O has won
+            // Perform an O turn
             var playOTurn = function () {
-                $.fn.random = function() {
-                    return this.eq(Math.floor(Math. random() * this.length));
-                };
-                randBtn = $('.boardBtn:not(:disabled)'). random().val('O').css({'font- size': '50px'}).prop("disabled", true);
-                //Check for X Win
+                var randBtn = randomBtn($('.gameBtn:not(:disabled)'))
+                randBtn.attr("value", "O").attr("disabled", "true");
                 checkWin('O');
+            };
+
+
+            // Peform an X turn
+            var playXTurn = function(button) {
+                button.attr("value", "X");
+                button.attr("disabled", "true");
+                checkWin('X');
+            }
+
+
+            // Find a random button amongst the currently non-disabled buttons
+            var randomBtn = function(availBtns) {
+                return availBtns.eq(Math.floor(Math.random() * $dim));
             };
 
 
@@ -82,8 +96,8 @@
 
             // Perform a turn
             $(document).on("click", ".gameBtn", function() {
-                $(this).attr("value", "X");
-                checkWin('X');
+                playXTurn($(this));
+                playOTurn();
             });
 
         });
