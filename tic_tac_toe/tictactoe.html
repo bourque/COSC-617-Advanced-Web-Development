@@ -39,7 +39,7 @@
                 };
 
                 // Deactivate the submit button
-                $("buildGridBtn").prop("disabled", true);  // Not sure why this doesnt work
+                $("#buildGridBtn").prop("disabled", true);  // Not sure why this doesnt work
             }
 
 
@@ -60,14 +60,14 @@
             // Perform an O turn
             var playOTurn = function () {
                 var randBtn = randomBtn($('.gameBtn:not(:disabled)'))
-                randBtn.attr("value", "O").attr("disabled", "true");
+                randBtn.attr("value", "O").attr("disabled", "true").css("color", "blue");
                 checkWin('O');
             };
 
 
             // Peform an X turn
             var playXTurn = function(button) {
-                button.attr("value", "X");
+                button.attr("value", "X").css("color", "red");
                 button.attr("disabled", "true");
                 checkWin('X');
             }
