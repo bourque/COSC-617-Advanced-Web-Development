@@ -4,16 +4,20 @@
     <title>Tic Tac Toe</title>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <style>
-        .gameBtn { height: 100px; width: 100px }
-        .winText { color: red }
-        #buttonGrid { height: 10000px; width: 10000px }
+        body {font-family: sans-serif; margin: 0 auto; text-align: center; margin-top: 50px; background: #616161; color: white}
+        table {margin: 0 auto}
+        td {border: 1px solid white}
+        .gameBtn {background-color: white; width: 50px; height: 50px;}
+        .gameBtn:hover:enabled {background-color: #CDCDCD}
+        #buttonGrid {height: 100%; width: 100%}
+        #newGameBtn {background-color: lightgreen}
+        #buildGridBtn {background-color: lightgreen}
     </style>
     <script>
 
         $(document).ready(function () {
 
             var $dim;
-            var player = 'X';
 
             // Build the game board
             var buildGrid = function() {
@@ -28,18 +32,20 @@
                 };
 
                 // Build the grid
+                var $table = "<table>";
                 for (var i=0; i<$dim; i++) {
+                    $table += "<tr>";
                     for (var j=0; j<$dim; j++) {
-                        var id = "btn_" + i.toString() + j.toString();
-                        var $button = $('<input type="button" id=' + id + ' class="gameBtn"/>');
-                        $button.appendTo("#buttonGrid");
+                        var $id = "btn_" + i.toString() + j.toString();
+                        $table += '<td id=' + $id + ' class=gameBtn></td>';
                     }
-                    var $break = $("<br/>")
-                    $break.appendTo("#buttonGrid");
+                    $table += "</tr>";
                 };
+                $table += "</table>";
+                $("#buttonGrid").append($table);
 
                 // Deactivate the submit button
-                $("#buildGridBtn").prop("disabled", true);  // Not sure why this doesnt work
+                $("#buildGridBtn").prop("disabled", true);
             }
 
 
@@ -54,21 +60,22 @@
                 $("#buttonGrid").replaceWith('<div id="buttonGrid"></div>');
                 $("#gridSize").val("");
                 $("#newGameBtn").attr("disabled", "true");
+                $("#buildGridBtn").prop("disabled", false);
             };
 
 
             // Perform an O turn
             var playOTurn = function () {
-                var randBtn = randomBtn($('.gameBtn:not(:disabled)'))
-                randBtn.attr("value", "O").attr("disabled", "true").css("color", "blue");
+                var randBtn = randomBtn($(".gameBtn").not(":disabled"));
+                randBtn.append("O").prop("disabled", true).css("color", "blue");
                 checkWin('O');
             };
 
 
             // Peform an X turn
             var playXTurn = function(button) {
-                button.attr("value", "X").css("color", "red");
-                button.attr("disabled", "true");
+                button.append("X").css("color", "red");
+                button.prop("disabled", true);
                 checkWin('X');
             }
 
@@ -104,9 +111,10 @@
     </script>
 </head>
 <body>
+    <h1> tic tac toe </h1>
     <div id="header">
-        <input type="button" id="buildGridBtn" value="Submit"/>
         <input type="text" id="gridSize" value="Enter a number [3-10]"/>
+        <input type="button" id="buildGridBtn" value="Submit"/>
         <input type="button" id="newGameBtn" value="New Game" disabled="true"/>
         <br/><br/>
     </div>
