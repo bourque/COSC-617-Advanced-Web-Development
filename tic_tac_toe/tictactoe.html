@@ -6,12 +6,12 @@
     <style>
         body {font-family: sans-serif; margin: 0 auto; text-align: center; margin-top: 50px; background: #616161; color: white}
         table {margin: 0 auto}
-        td {border: 1px solid white}
-        .gameBtn {background-color: white; width: 50px; height: 50px;}
-        .gameBtn:hover:enabled {background-color: #CDCDCD}
+        .gameBtn {background-color: white; width: 50px; height: 50px; border: 1px solid white}
+        .gameBtn:hover {background-color: #CDCDCD}
         #buttonGrid {height: 100%; width: 100%}
         #newGameBtn {background-color: lightgreen}
         #buildGridBtn {background-color: lightgreen}
+        #resultsText {font-size: 250%; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;}
     </style>
     <script>
 
@@ -32,7 +32,7 @@
                 };
 
                 // Build the grid
-                var $table = "<table>";
+                var $table = '<table id="gameTable">';
                 for (var i=0; i<$dim; i++) {
                     $table += "<tr>";
                     for (var j=0; j<$dim; j++) {
@@ -51,8 +51,62 @@
 
             // Check to see if a player has won the game
             var checkWin = function(player) {
-                console.log('notImplemented');
+
+                var diagCountTLBR = 0;
+                var diagCountTRBL = 0;
+                for (var i=0; i<$dim; i++) {
+                    var rowCount = 0;
+                    var colCount = 0;
+                    for (var j=0; j<$dim; j++) {
+                        var $rowButton = $("#btn_" + i.toString() + j.toString());
+                        var $colButton = $("#btn_" + j.toString() + i.toString());
+
+                        // Check row win
+                        if ($rowButton.text() == player) {
+                            rowCount += 1;
+                        }
+
+                        // for col win
+                        if ($colButton.text() == player) {
+                            colCount += 1;
+                        }
+
+                        // Check diagnal top-left/bottom-right win
+                        if (i==j && $colButton.text() == player) {
+                            diagCountTLBR += 1;
+                        }
+
+                        // Check diagnal top-right/bottom-left win
+                        if (i+j==$dim -1 && $colButton.text() == player) {
+                            diagCountTRBL += 1;
+                        }
+                    }
+
+                    // Display the winner if there is one
+                    if (rowCount == $dim || colCount == $dim || diagCountTLBR == $dim || diagCountTRBL == $dim) {
+                        displayWinner(player);
+                    }
+                }
             };
+
+
+            // Display the winner to the screen
+            var displayWinner = function(player) {
+
+                // Display the winner
+                $("#results").append('<p id="resultsText">Player ' + player + ' Wins! </p>');
+
+                // Change the color of the font based on the winner
+                if (player == "X") {
+                    $("#results").css("color", "#943126");
+                } else {
+                    $("#results").css("color", "#1A5276");
+                }
+
+                // Disable the rest of the game board
+                $(".gameBtn").not(":disabled").prop("disabled", true);
+
+            }
 
 
             // Reset the game
@@ -61,20 +115,22 @@
                 $("#gridSize").val("");
                 $("#newGameBtn").attr("disabled", "true");
                 $("#buildGridBtn").prop("disabled", false);
+                $("#results").replaceWith('<div id="results"></div>');
+                $("#gridSize").focus();
             };
 
 
             // Perform an O turn
             var playOTurn = function () {
                 var randBtn = randomBtn($(".gameBtn").not(":disabled"));
-                randBtn.append("O").prop("disabled", true).css("color", "blue");
+                randBtn.append("O").prop("disabled", true).css({"color": "white", "background-color": "#1A5276", "font-size": "xx-large"});
                 checkWin('O');
             };
 
 
             // Peform an X turn
             var playXTurn = function(button) {
-                button.append("X").css("color", "red");
+                button.append("X").css({"color": "white", "background-color": "#943126", "font-size": "xx-large"});
                 button.prop("disabled", true);
                 checkWin('X');
             }
@@ -119,5 +175,6 @@
         <br/><br/>
     </div>
     <div id="buttonGrid"></div>
+    <div id="results"></div>
 </body>
 </html>
