@@ -1,3 +1,11 @@
+<!--
+This module operates a simple Tic-Tac-Toe game.  The user may enter the number of dimensions for the game
+(between 3 and 10).  When a player has won the game, a message is printed to the screen.
+
+Authors:
+
+    Matthew Bourque, October 2017 -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,17 +27,19 @@
 
             var $dim;
 
-            // Build the game board
+            /**
+             * Builds the game board
+             */
             var buildGrid = function() {
 
                 // Check user input
                 $userInput = Number($("#gridSize").val());
                 if (Number.isInteger($userInput) && $userInput >= 3 && $userInput <=10) {
                     $dim = $("#gridSize").val();
-                    $("#newGameBtn").removeAttr("disabled");
                 } else {
                     alert("Please enter a integer between 3 and 10");
                 };
+                $("#newGameBtn").removeAttr("disabled");
 
                 // Build the grid
                 var $table = '<table id="gameTable">';
@@ -49,7 +59,10 @@
             }
 
 
-            // Check to see if a player has won the game
+            /**
+             * Checks to see if a player has won the game.
+             * @param {"X" or "O"} player
+             */
             var checkWin = function(player) {
 
                 var diagCountTLBR = 0;
@@ -90,7 +103,10 @@
             };
 
 
-            // Display the winner to the screen
+            /**
+             * Displays the winner on the screen.
+             * @param {"X" or "O"} player
+             */
             var displayWinner = function(player) {
 
                 // Display the winner
@@ -109,7 +125,9 @@
             }
 
 
-            // Reset the game
+            /**
+             * Resets the game.
+             */
             var newGame = function() {
                 $("#buttonGrid").replaceWith('<div id="buttonGrid"></div>');
                 $("#gridSize").val("");
@@ -120,7 +138,9 @@
             };
 
 
-            // Perform an O turn
+            /**
+             * Performs an O turn and checks for a win.
+             */
             var playOTurn = function () {
                 var randBtn = randomBtn($(".gameBtn").not(":disabled"));
                 randBtn.append("O").prop("disabled", true).css({"color": "white", "background-color": "#1A5276", "font-size": "xx-large"});
@@ -128,7 +148,10 @@
             };
 
 
-            // Peform an X turn
+            /**
+             * Performs an X turn and checks for a win.
+             * @param {Object} button - The table element that the user selected.
+             */
             var playXTurn = function(button) {
                 button.append("X").css({"color": "white", "background-color": "#943126", "font-size": "xx-large"});
                 button.prop("disabled", true);
@@ -136,36 +159,47 @@
             }
 
 
-            // Find a random button amongst the currently non-disabled buttons
+            /**
+             * Finds a random button amongst the current available table elements.
+             * @param {Object} availBtns - The table elements that have not yet been selected.
+             */
             var randomBtn = function(availBtns) {
                 return availBtns.eq(Math.floor(Math.random() * $dim));
             };
 
 
-            // Empty the form when user goes to enter a dimension
-            $("#gridSize").click(function() {
-                $("#gridSize").attr("value", "");
-            });
+            /**
+             * The main function.  Inokes the game.
+             */
+            var playGame = function() {
 
-            // Change the value of the dim upon submit button and activate new game
-            $("#buildGridBtn").click(function() {
-                buildGrid();
-            });
+                // Empty the form when user goes to enter a dimension
+                $("#gridSize").click(function() {
+                    $("#gridSize").attr("value", "");
+                });
 
-            // Reset the grid upon click of newGameBtn
-            $("#newGameBtn").click(function() {
-                newGame();
-            });
+                // Change the value of the dim upon submit button and activate new game
+                $("#buildGridBtn").click(function() {
+                    buildGrid();
+                });
 
-            // Perform a turn
-            $(document).on("click", ".gameBtn", function() {
-                playXTurn($(this));
-                playOTurn();
-            });
+                // Reset the grid upon click of newGameBtn
+                $("#newGameBtn").click(function() {
+                    newGame();
+                });
 
+                // Perform a turn
+                $(document).on("click", ".gameBtn", function() {
+                    playXTurn($(this));
+                    playOTurn();
+                });
+            }
+
+            playGame();
         });
     </script>
 </head>
+
 <body>
     <h1> tic tac toe </h1>
     <div id="header">
