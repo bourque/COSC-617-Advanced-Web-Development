@@ -1,10 +1,12 @@
 <!--
-This module operates a simple Tic-Tac-Toe game.  The user may enter the number of dimensions for the game
-(between 3 and 10).  When a player has won the game, a message is printed to the screen.
+This module operates a simple Tic-Tac-Toe game.  The user may enter the number of dimensions
+for the game (between 3 and 10).  When a player has won the game, a message is printed to
+the screen.
 
 Authors:
 
-    Matthew Bourque, October 2017 -->
+    Matthew Bourque, October 2017
+-->
 
 <!DOCTYPE html>
 <html>
@@ -12,20 +14,47 @@ Authors:
     <title>Tic Tac Toe</title>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <style>
-        body {font-family: sans-serif; margin: 0 auto; text-align: center; margin-top: 50px; background: #616161; color: white}
-        table {margin: 0 auto}
-        .gameBtn {background-color: white; width: 50px; height: 50px; border: 1px solid white}
-        .gameBtn:hover {background-color: #CDCDCD}
-        #buttonGrid {height: 100%; width: 100%}
-        #newGameBtn {background-color: lightgreen}
-        #buildGridBtn {background-color: lightgreen}
-        #resultsText {font-size: 250%; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;}
+        body {
+            font-family: sans-serif;
+            margin: 0 auto;
+            text-align: center;
+            margin-top: 50px;
+            background: #616161;
+            color: white
+        }
+        table {
+            margin: 0 auto
+        }
+        .gameBtn {
+            background-color: white;
+            width: 50px;
+            height: 50px;
+            border: 1px solid white
+        }
+        .gameBtn:hover {
+            background-color: #CDCDCD
+        }
+        #buttonGrid {
+            height: 100%;
+            width: 100%
+        }
+        #newGameBtn {
+            background-color: lightgreen
+        }
+        #buildGridBtn {
+            background-color: lightgreen
+        }
+        #resultsText {
+            font-size: 250%;
+            text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black
+        }
     </style>
     <script>
 
         $(document).ready(function () {
 
             var $dim;
+            var $win = false;
 
             /**
              * Builds the game board
@@ -33,8 +62,8 @@ Authors:
             var buildGrid = function() {
 
                 // Check user input
-                $userInput = Number($("#gridSize").val());
-                if (Number.isInteger($userInput) && $userInput >= 3 && $userInput <=10) {
+                userInput = Number($("#gridSize").val());
+                if (Number.isInteger(userInput) && userInput >= 3 && userInput <=10) {
                     $dim = $("#gridSize").val();
                 } else {
                     alert("Please enter a integer between 3 and 10");
@@ -42,27 +71,28 @@ Authors:
                 $("#newGameBtn").removeAttr("disabled");
 
                 // Build the grid
-                var $table = '<table id="gameTable">';
+                var table = '<table id="gameTable">';
                 for (var i=0; i<$dim; i++) {
-                    $table += "<tr>";
+                    table += "<tr>";
                     for (var j=0; j<$dim; j++) {
-                        var $id = "btn_" + i.toString() + j.toString();
-                        $table += '<td id=' + $id + ' class=gameBtn></td>';
-                    }
-                    $table += "</tr>";
+                        var id = "btn_" + i.toString() + j.toString();
+                        table += '<td id=' + id + ' class=gameBtn></td>';
+                    };
+                    table += "</tr>";
                 };
-                $table += "</table>";
-                $("#buttonGrid").append($table);
+                table += "</table>";
+                $("#buttonGrid").append(table);
 
                 // Deactivate the submit button
                 $("#buildGridBtn").prop("disabled", true);
             };
 
+
             /**
              * Checks to see if there has been a draw in the game
              */
              var checkDraw = function() {
-                if ($(".gameBtn").not(":disabled").length == 0) {
+                if ($("td:contains('X')").length + $("td:contains('O')").length == $dim*$dim) {
                     $("#results").append('<p id="resultsText">It is a draw! </p>');
                     $("#results").css("color", "#196F3D");
                 };
@@ -81,35 +111,35 @@ Authors:
                     var rowCount = 0;
                     var colCount = 0;
                     for (var j=0; j<$dim; j++) {
-                        var $rowButton = $("#btn_" + i.toString() + j.toString());
-                        var $colButton = $("#btn_" + j.toString() + i.toString());
+                        var rowButton = $("#btn_" + i.toString() + j.toString());
+                        var colButton = $("#btn_" + j.toString() + i.toString());
 
                         // Check row win
-                        if ($rowButton.text() == player) {
+                        if (rowButton.text() == player) {
                             rowCount += 1;
-                        }
+                        };
 
                         // for col win
-                        if ($colButton.text() == player) {
+                        if (colButton.text() == player) {
                             colCount += 1;
-                        }
+                        };
 
                         // Check diagnal top-left/bottom-right win
-                        if (i==j && $colButton.text() == player) {
+                        if (i==j && colButton.text() == player) {
                             diagCountTLBR += 1;
-                        }
+                        };
 
                         // Check diagnal top-right/bottom-left win
-                        if (i+j==$dim -1 && $colButton.text() == player) {
+                        if (i+j==$dim -1 && colButton.text() == player) {
                             diagCountTRBL += 1;
-                        }
-                    }
+                        };
+                    };
 
                     // Display the winner if there is one
                     if (rowCount == $dim || colCount == $dim || diagCountTLBR == $dim || diagCountTRBL == $dim) {
                         displayWinner(player);
-                    }
-                }
+                    };
+                };
             };
 
 
@@ -127,10 +157,13 @@ Authors:
                     $("#results").css("color", "#943126");
                 } else {
                     $("#results").css("color", "#1A5276");
-                }
+                };
 
                 // Disable the rest of the game board
                 $(".gameBtn").not(":disabled").prop("disabled", true);
+
+                // Change win variable to true to signify end of game
+                $win = true;
 
             }
 
@@ -153,7 +186,10 @@ Authors:
              */
             var playOTurn = function () {
                 var randBtn = randomBtn($(".gameBtn").not(":disabled"));
-                randBtn.append("O").prop("disabled", true).css({"color": "white", "background-color": "#1A5276", "font-size": "xx-large"});
+                randBtn.append("O").prop("disabled", true).css({
+                    "color": "white",
+                    "background-color": "#1A5276",
+                    "font-size": "xx-large"});
                 checkWin('O');
             };
 
@@ -163,10 +199,13 @@ Authors:
              * @param {Object} button - The table element that the user selected.
              */
             var playXTurn = function(button) {
-                button.append("X").css({"color": "white", "background-color": "#943126", "font-size": "xx-large"});
+                button.append("X").css({
+                    "color": "white",
+                    "background-color": "#943126",
+                    "font-size": "xx-large"});
                 button.prop("disabled", true);
                 checkWin('X');
-            }
+            };
 
 
             /**
@@ -202,9 +241,12 @@ Authors:
                 $(document).on("click", ".gameBtn", function() {
                     playXTurn($(this));
                     playOTurn();
-                    checkDraw();
+
+                    if ($win == false) {
+                        checkDraw();
+                    };
                 });
-            }
+            };
 
             playGame();
         });
