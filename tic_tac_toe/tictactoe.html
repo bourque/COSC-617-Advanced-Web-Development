@@ -56,7 +56,17 @@ Authors:
 
                 // Deactivate the submit button
                 $("#buildGridBtn").prop("disabled", true);
-            }
+            };
+
+            /**
+             * Checks to see if there has been a draw in the game
+             */
+             var checkDraw = function() {
+                if ($(".gameBtn").not(":disabled").length == 0) {
+                    $("#results").append('<p id="resultsText">It is a draw! </p>');
+                    $("#results").css("color", "#196F3D");
+                };
+             };
 
 
             /**
@@ -192,6 +202,7 @@ Authors:
                 $(document).on("click", ".gameBtn", function() {
                     playXTurn($(this));
                     playOTurn();
+                    checkDraw();
                 });
             }
 
