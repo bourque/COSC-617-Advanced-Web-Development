@@ -57,49 +57,56 @@ Authors:
             var $win = false;
 
             /**
-             * Builds the game board
+             * Builds the game board.  The game board is only built if the user inputs an
+             * integer dimension between 3 and 10.
              */
             var buildGrid = function() {
 
                 // Check user input
                 userInput = Number($("#gridSize").val());
                 if (Number.isInteger(userInput) && userInput >= 3 && userInput <=10) {
+
                     $dim = $("#gridSize").val();
+
+                    // Build the grid
+                    var table = '<table id="gameTable">';
+                    for (var i=0; i<$dim; i++) {
+                        table += "<tr>";
+                        for (var j=0; j<$dim; j++) {
+                            var id = "btn_" + i.toString() + j.toString();
+                            table += '<td id=' + id + ' class=gameBtn></td>';
+                        };
+                        table += "</tr>";
+                    };
+                    table += "</table>";
+                    $("#buttonGrid").append(table);
+
+                    // Deactivate the submit button
+                    $("#buildGridBtn").prop("disabled", true);
+
                 } else {
                     alert("Please enter a integer between 3 and 10");
                 };
-
-                // Build the grid
-                var table = '<table id="gameTable">';
-                for (var i=0; i<$dim; i++) {
-                    table += "<tr>";
-                    for (var j=0; j<$dim; j++) {
-                        var id = "btn_" + i.toString() + j.toString();
-                        table += '<td id=' + id + ' class=gameBtn></td>';
-                    };
-                    table += "</tr>";
-                };
-                table += "</table>";
-                $("#buttonGrid").append(table);
-
-                // Deactivate the submit button
-                $("#buildGridBtn").prop("disabled", true);
             };
 
 
             /**
-             * Checks to see if there has been a draw in the game
+             * Checks to see if there has been a draw in the game.  If there has, a message
+             * is printed to the screen.
              */
              var checkDraw = function() {
                 if ($("td:contains('X')").length + $("td:contains('O')").length == $dim*$dim) {
-                    $("#results").append('<p id="resultsText">It is a draw! </p>');
+                    $("#results").append('<p id="resultsText">It is a draw. </p>');
                     $("#results").css("color", "#196F3D");
+                    $("#newGameBtn").removeAttr("disabled");
                 };
              };
 
 
             /**
-             * Checks to see if a player has won the game.
+             * Checks to see if a player has won the game.  This is accomplished by counting
+             * the number of player hits for each row, column, and diagonal; if the number
+             * of hits matches the game board dimensions, the player has won.
              * @param {"X" or "O"} player
              */
             var checkWin = function(player) {
@@ -143,7 +150,8 @@ Authors:
 
 
             /**
-             * Displays the winner on the screen.
+             * Displays the winner by printing a message on the screen.  Also disables the rest
+             * of the game board and re-enables the New Game button.
              * @param {"X" or "O"} player
              */
             var displayWinner = function(player) {
@@ -169,7 +177,9 @@ Authors:
 
 
             /**
-             * Resets the game.
+             * Resets the game.  This involves removing the game board, disabling
+             * the New Game button, enabling the Submit button, and resetting the
+             * results div.
              */
             var newGame = function() {
                 $("#buttonGrid").replaceWith('<div id="buttonGrid"></div>');
@@ -182,7 +192,8 @@ Authors:
 
 
             /**
-             * Performs an O turn and checks for a win.
+             * Performs an O turn and checks for a win.  An O turn is accomplished by simply
+             * placing an O in a random spot amongst the currently-available spots.
              */
             var playOTurn = function () {
                 var randBtn = randomBtn($(".gameBtn").not(":disabled"));
@@ -211,14 +222,15 @@ Authors:
             /**
              * Finds a random button amongst the current available table elements.
              * @param {Object} availBtns - The table elements that have not yet been selected.
+             * @returns {Object} button - A randomly-selected button amonst the available buttons.
              */
             var randomBtn = function(availBtns) {
-                return availBtns.eq(Math.floor(Math.random() * $dim));
+                return availBtns.eq(Math.floor(Math.random() * availBtns.length));
             };
 
 
             /**
-             * The main function.  Inokes the game.
+             * The main function.  Invokes the game.
              */
             var playGame = function() {
 
