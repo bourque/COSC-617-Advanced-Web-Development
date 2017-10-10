@@ -68,7 +68,6 @@ Authors:
                 } else {
                     alert("Please enter a integer between 3 and 10");
                 };
-                $("#newGameBtn").removeAttr("disabled");
 
                 // Build the grid
                 var table = '<table id="gameTable">';
@@ -159,8 +158,9 @@ Authors:
                     $("#results").css("color", "#1A5276");
                 };
 
-                // Disable the rest of the game board
+                // Disable the rest of the game board and enable the new game button
                 $(".gameBtn").not(":disabled").prop("disabled", true);
+                $("#newGameBtn").removeAttr("disabled");
 
                 // Change win variable to true to signify end of game
                 $win = true;
