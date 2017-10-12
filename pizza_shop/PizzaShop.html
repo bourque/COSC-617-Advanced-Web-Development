@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Name Pizza Shop</title>
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js""></script>
+
+    <meta charset="utf-8" />
+    <meta name="description" content="Pizza Shop">
+    <meta name="keywords" content="Pizza, ">
+
+    <style type="text/css">
+        h1 {
+            color: blue;
+            text-align: center;
+        }
+
+        nav {
+            width: 100%;
+            height: 40px;
+            font-size: 16px;
+            font-family: Helvetica, Geneva, sans-serif; /*No barbs*/
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 3px 2px 3px #333333;
+            background-color: red;
+            border-radius: 8px;
+        }
+            nav ul {
+                height: auto;
+                padding: 8px 0px;
+                margin: 0px;
+            }
+            nav li {
+                display: inline; /*position text horizontally*/
+                padding: 20px;
+            }
+            nav a {
+                text-decoration: none; /*removes underline*/
+                color: #00F;
+                padding: 8px;
+            }
+                /*Anchor in the nav area when the Mouse Hovers over the area*/
+                nav a:hover {
+                    color: #4cff00; /*Lime green*/
+                    background-color: #FFF;
+                }
+
+        footer li {
+            display: inline;
+            padding: 20px;
+        }
+
+        footer a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div style="float:left;width:80px;height:80px">
+            <img src="http://upload.wikimedia.org/wikipedia/commons/5/54/Cheese_and_Pepperoni_Pizza_%284825046245%29.jpg" alt="pizza logo" width="80px" height="80px">
+        </div>
+        <div style="background-color:red; text-align: center; font-size: 200%;">
+            Joe's Pizza Shop
+        </div>
+        <nav>
+            <div>
+                <ul>
+                    <li><a href="#home" id="navHome" class="links" rel="home">Pizza Shop Home</a></li>
+                    <li><a href="#menu" id="navMenu" class="links" rel="menu">Pizza Shop Menu</a></li>
+                    <li><a href="#about" id="navAbout" class="links" rel="about">Pizza Shop About</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div id="home" style="display:block">
+        <h1>Home Page Section</h1>
+        <aside style="line-height:30px;background-color:#eeeeee;height:300px;width:100px;float:left;padding:5px;">sidebar 1<br> sidebar 2<br> sidebar 3<br></aside>
+        <section>distinct title and region</section>
+        <img id="cocacola" />
+    </div>
+    <div id="menu" style="display:none">
+        <h1>Menu Page Section</h1>
+        <aside>sidebar</aside>
+        <section>distinct title and region</section>
+        <article>self-contained composition (syndication) in a doc</article>
+    </div>
+    <!---ABOUT AREA-->
+
+    <!---TERMS AREA->
+
+    <!-SITE AREA->
+
+    <!-CONTACT AREA-->
+
+    <!---FOOTER AREA-->
+    <footer>
+        <div>
+            <ul>
+                <li>White Rabbit Studios&copy; 2015</li>
+                <li><a href="#terms" id="ftrTerms">Terms of Use</a></li>
+                <li><a href="#site" id="ftrSite">Site Map</a></li>
+                <li><a href="#contact" id="ftrContact">Contact Us</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+            $(document).ready(function () {
+
+
+                $("#navHome").click(function (event) {
+                    $("#home").show();
+                    $("#menu, #about, #terms, #site, #contact").hide();
+                });
+                 //Add When menu link is clicked show menu area
+                 //Add When about link is clicked show about area
+                 //Add When terms link is clicked show terms area
+                 //Add When site link is clicked show site area
+                //Add When contact link is clicked show contact area
+                 //***** Load the Menu Area with the JSON data *******
+                for (var i in menuItems){
+                    $("#menu").append("<div>"
+                        + "Type: " + menuItems[i].pizzaType
+                        + "Cost: " + menuItems[i].cost.toFixed(2)
+                        + "</div>");
+                 }
+     </script>
+</body>
+</html>
