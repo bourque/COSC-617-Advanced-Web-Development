@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Your Name Pizza Shop</title>
+    <title>Big Dough Boy Bourque's</title>
     <script src="http://code.jquery.com/jquery-3.2.1.min.js""></script>
 
     <meta charset="utf-8" />
@@ -9,6 +9,12 @@
     <meta name="keywords" content="Pizza, ">
 
     <style type="text/css">
+        body {
+            background-image: url('wood_background_dark.jpg');
+            font-family: Helvetica, Geneva, sans-serif;
+            font-weight: bold;
+            text-align: center;
+        }
         h1 {
             color: blue;
             text-align: center;
@@ -16,91 +22,143 @@
 
         nav {
             width: 100%;
-            height: 40px;
+            height: 100px;
+            padding: 30px 0;
             font-size: 16px;
-            font-family: Helvetica, Geneva, sans-serif; /*No barbs*/
+            color: #AD0005;
+            font-family: Helvetica, Geneva, sans-serif;
             font-weight: bold;
             text-align: center;
-            text-shadow: 3px 2px 3px #333333;
-            background-color: red;
-            border-radius: 8px;
+            background-image: url('wood_background_light.jpg');
+            border-radius: 30px;
         }
             nav ul {
+                font-size: 125%;
                 height: auto;
-                padding: 8px 0px;
+                padding: 30px 0px;
                 margin: 0px;
             }
             nav li {
                 display: inline; /*position text horizontally*/
-                padding: 20px;
+                padding: 30px;
             }
             nav a {
                 text-decoration: none; /*removes underline*/
-                color: #00F;
+                color: #AD0005;
                 padding: 8px;
             }
                 /*Anchor in the nav area when the Mouse Hovers over the area*/
                 nav a:hover {
-                    color: #4cff00; /*Lime green*/
-                    background-color: #FFF;
+                    color: #C6C6C6;
+                    background-color: #AD0005;
                 }
 
         footer li {
             display: inline;
             padding: 20px;
+            color: #C6C6C6;
         }
 
         footer a {
             text-decoration: none;
+            color: #C6C6C6;
+            font-weight: bold;
+        }
+
+        td {
+            border: 1px solid white;
+        }
+
+        section {
+            color: #AD0005;
+            padding: 20px;
+            font-size: 125%;
+        }
+
+        .sidebar {
+            line-height: 30px;
+            background-color: #eeeeee;
+            height:300px; width:100px;
+            float: left;
+            padding:5px
+        }
+        .section {
+            background-image: url('wood_background_light.jpg');
+            margin: 50px;
+        }
+
+        #headerImageLeft {
+            float: left;
+            width: 100px;
+            height: 100px;
+            margin-left: 1%;
+            margin-top: 25px;
+            position: absolute;
+        }
+        #headerImageRight {
+            float: right;
+            width: 100px;
+            height: 100px;
+            margin-left: 89%;
+            margin-top: 25px;
+            position: absolute;
+        }
+
+        .menuItem {
+            color: #AD0005;
+            text-align: left;
+        }
+
+        #menuTable {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #menuHeader {
+            color: #AD0005;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <header>
-        <div style="float:left;width:80px;height:80px">
-            <img src="http://upload.wikimedia.org/wikipedia/commons/5/54/Cheese_and_Pepperoni_Pizza_%284825046245%29.jpg" alt="pizza logo" width="80px" height="80px">
-        </div>
-        <div style="background-color:red; text-align: center; font-size: 200%;">
-            Joe's Pizza Shop
-        </div>
+        <div id="headerImageLeft"><img src="http://www.azrazpizzagrill.com/wp-content/uploads/2016/05/Gourmet-pizza.jpg" width="130px" height="100px"></div>
+        <div id="headerImageRight"><img src="http://www.azrazpizzagrill.com/wp-content/uploads/2016/05/Gourmet-pizza.jpg" width="130px" height="100px"></div>
         <nav>
+            <div style="font-size: 200%;">Big Dough Boy Bourque's Atomic Pizzaria and Eatery</div>
+            <div style="font-size: 125%;"><i>We put the "eese" in "cheese"</i></div>
             <div>
                 <ul>
-                    <li><a href="#home" id="navHome" class="links" rel="home">Pizza Shop Home</a></li>
-                    <li><a href="#menu" id="navMenu" class="links" rel="menu">Pizza Shop Menu</a></li>
-                    <li><a href="#about" id="navAbout" class="links" rel="about">Pizza Shop About</a></li>
+                    <li><a href="#home" id="navHome" class="links" rel="home">Home</a></li>
+                    <li><a href="#menu" id="navMenu" class="links" rel="menu">Menu</a></li>
+                    <li><a href="#about" id="navAbout" class="links" rel="about">About</a></li>
+                    <li><a href="#contact" id="navContact" class="links" rel="contact">Contact</a></li>
                 </ul>
             </div>
         </nav>
     </header>
-    <div id="home" style="display:block">
-        <h1>Home Page Section</h1>
-        <aside style="line-height:30px;background-color:#eeeeee;height:300px;width:100px;float:left;padding:5px;">sidebar 1<br> sidebar 2<br> sidebar 3<br></aside>
-        <section>distinct title and region</section>
-        <img id="cocacola" />
+    <div id="home" class="section" style="display:block">
+        <!-- <aside class="sidebar">sidebar 1<br> sidebar 2<br> sidebar 3<br></aside> -->
+        <section>Home</section>
+        <div class="row">Test</div>
+        <div class="row">Test</div>
     </div>
-    <div id="menu" style="display:none">
-        <h1>Menu Page Section</h1>
-        <aside>sidebar</aside>
-        <section>distinct title and region</section>
-        <article>self-contained composition (syndication) in a doc</article>
+    <div id="menu" class="section" style="display:none">
+        <section>Menu</section>
     </div>
-    <!---ABOUT AREA-->
+    <div id="about" class="section" style="display:none">
+        <section>About</section>
+    </div>
+    <div id="contact" class="section" style="display:none">
+        <section>Contact</section>
+    </div>
 
-    <!---TERMS AREA->
-
-    <!-SITE AREA->
-
-    <!-CONTACT AREA-->
-
-    <!---FOOTER AREA-->
     <footer>
         <div>
             <ul>
-                <li>White Rabbit Studios&copy; 2015</li>
+                <li>Copyright &copy; Matthew Bourque 2017</li>
                 <li><a href="#terms" id="ftrTerms">Terms of Use</a></li>
                 <li><a href="#site" id="ftrSite">Site Map</a></li>
-                <li><a href="#contact" id="ftrContact">Contact Us</a></li>
             </ul>
         </div>
     </footer>
@@ -108,23 +166,53 @@
     <script>
             $(document).ready(function () {
 
+                var buildMenu = function(json) {
+
+                    $("#menu").append("<table id='menuTable'>");
+                    $("#menu").append("<tr id='menuHeader'><td>Type</td><td>Cost</td>");
+
+                    for (var i in json.menuItems){
+                        $("#menu").append("<tr class='menuItem'>"
+                                + "<td>" + json.menuItems[i].pizzaType + "</td>"
+                                + "<td>" + json.menuItems[i].cost.toFixed(2) + "<td>"
+                                + "</tr>");
+                    };
+
+                    $("#menu").append("</table>");
+                };
 
                 $("#navHome").click(function (event) {
                     $("#home").show();
-                    $("#menu, #about, #terms, #site, #contact").hide();
+                    $("#menu, #about, #contact, #terms, #site").hide();
                 });
-                 //Add When menu link is clicked show menu area
-                 //Add When about link is clicked show about area
-                 //Add When terms link is clicked show terms area
-                 //Add When site link is clicked show site area
-                //Add When contact link is clicked show contact area
-                 //***** Load the Menu Area with the JSON data *******
-                for (var i in menuItems){
-                    $("#menu").append("<div>"
-                        + "Type: " + menuItems[i].pizzaType
-                        + "Cost: " + menuItems[i].cost.toFixed(2)
-                        + "</div>");
-                 }
-     </script>
+                $("#navMenu").click(function (event) {
+                    $("#menu").show();
+                    $("#home, #about, #contact, #terms, #site").hide();
+                });
+                $("#navAbout").click(function (event) {
+                    $("#about").show();
+                    $("#home, #menu, #contact, #terms, #site").hide();
+                });
+                $("#navContact").click(function (event) {
+                    $("#contact").show();
+                    $("#home, #menu, #about, #terms, #site").hide();
+                });
+                $("#ftrSite").click(function (event) {
+                    $("#site").show();
+                    $("#home, #menu, #about, #contact, #terms").hide();
+                });
+                $("#ftrSite").click(function (event) {
+                    $("#site").show();
+                    $("#home, #menu, #about, #contact, #terms").hide();
+                });
+
+                $.getJSON("https://api.myjson.com/bins/18pl9r")
+                    .done(function (json) {
+                        buildMenu(json);
+                    });
+            });
+    </script>
+
+
 </body>
 </html>
