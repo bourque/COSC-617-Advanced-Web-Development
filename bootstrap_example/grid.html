@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=divice-width">
+    <!-- <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>Bootstrap</title>
+</head>
+<body>
+
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">Towson App</a>
+				<button type="button" class="btn btn-default navbar-btn">Sign Out</button>
+				<p class="navbar-text">Signed in as Matthew Bourque</p>
+		</div>
+	</div>
+</nav>
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h3 class="panel-title">Student Information</h3>
+	</div>
+ 	<form data-ng-submit="submit()" data-ng-controller="Ctrl">
+       <div class="form-group">
+             <label for="studentName" class="col-xs-2 control-label">Student Name:</label>
+             <div class="col-sm-10">
+               <input maxlength="40" class="form-control" id="studentName" placeholder="Student Name" data-ng-model="studentName" required >
+            </div>
+              <label for="studentSSN" class="col-xs-2 control-label">Student SSN:</label>
+             <div class="col-sm-10">
+               <input type="text" maxlength="11" class="form-control" id="studentSSN" placeholder="Student SSN" data-ng-model="studentSSN" required >
+            </div>
+             <label for="studentEmail" class="col-xs-2 control-label">Student Email:</label>
+             <div class="col-sm-10">
+               <input type="text" maxlength="25" class="form-control" id="studentEmail" placeholder="Student Email" data-ng-model="studentEmail" required >
+            </div>
+             <label for="studentPhone" class="col-xs-2 control-label">Student Phone:</label>
+             <div class="col-sm-10">
+               <input type="text" maxlength="15" class="form-control" id="studentPhone" placeholder="Student Phone" data-ng-model="studentPhone" required >
+            </div>
+       </div>
+    <p><input type="submit" id="submit" value="Submit" /></p>
+	</form>
+	<p>Response: {{ response }}</p>
+</div>
