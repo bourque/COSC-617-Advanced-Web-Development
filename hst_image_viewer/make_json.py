@@ -25,6 +25,7 @@ Dependencies
     - pyql
 """
 
+import glob
 import json
 import os
 
@@ -32,7 +33,14 @@ from astropy.io import fits
 import numpy as np
 from PIL import Image
 
-from pyql.database.ql_database_interface import session, Master, UVIS_flt_0, IR_flt_0
+from acsql.database.database_interface import session as acs_session
+from acsql.database.database_interface import Master as acs_Master
+from acsql.database.database_interface import WFC_flt_0
+from acsql.utils.utils import SETTINGS
+from pyql.database.ql_database_interface import session as wfc3_session
+from pyql.database.ql_database_interface import Master as wfc3_Master
+from pyql.database.ql_database_interface import UVIS_flt_0
+from pyql.database.ql_database_interface import IR_flt_0
 
 
 def get_images_to_process(instrument):
@@ -51,11 +59,11 @@ def get_images_to_process(instrument):
 
     if instrument == 'WFC3':
 
-        uvis_results = session.query(Master.ql_root, Master.dir)\
+        uvis_results = wfc3_session.query(wfc3_Master.ql_root, wfc3_Master.dir)\
             .join(UVIS_flt_0)\
             .filter(UVIS_flt_0.pr_inv_l == 'Levay').all()
 
-        ir_results = session.query(Master.ql_root, Master.dir)\
+        ir_results = wfc3_session.query(wfc3_Master.ql_root, wfc3_Master.dir)\
             .join(IR_flt_0)\
             .filter(IR_flt_0.pr_inv_l == 'Levay').all()
 
@@ -67,10 +75,20 @@ def get_images_to_process(instrument):
         return images
 
     elif instrument == 'ACS':
-        return []
+
+        results = acs_session.query(acs_Master.path, WFC_flt_0.filename)\
+            .join(WFC_flt_0)\
+            .filter(WFC_flt_0.pr_inv_f == 'Zolt')\
+            .filter(WFC_flt_0.pr_inv_l == 'Levay').all()
+
+        images = ['{}{}/{}'.format(SETTINGS['filesystem'][:-1], item[0], item[1]) for item in results]
+
+        return images
 
     elif instrument == 'STIS':
-        return []
+
+        images = glob.glob('/stis/data/*x2d.fits')
+        return images
 
 
 def make_file_dict(filename, instrument):
@@ -118,17 +136,23 @@ def make_file_dict(filename, instrument):
 if __name__ == '__main__':
 
     wfc3_images = get_images_to_process('WFC3')
+    acs_images = get_images_to_process('ACS')
+    stis_images = get_images_to_process('STIS')
 
     # Initialize the JSON file
     json_dict = {}
     json_dict['rootnames'] = []
 
     for filename in wfc3_images:
-
-        # Gather image metadata
         file_dict = make_file_dict(filename, 'wfc3')
+        json_dict['rootnames'].append(file_dict)
 
-        # Add to the JSON object
+    for filename in acs_images:
+        file_dict = make_file_dict(filename, 'acs')
+        json_dict['rootnames'].append(file_dict)
+
+    for filename in stis_images:
+        file_dict = make_file_dict(filename, 'stis')
         json_dict['rootnames'].append(file_dict)
 
     # Write the JSON file

@@ -39,13 +39,21 @@ Dependencies
     conda/pip install Pillow
 """
 
+import glob
 import os
 
 from astropy.io import fits
 import numpy as np
 from PIL import Image
 
-from pyql.database.ql_database_interface import session, Master, UVIS_flt_0, IR_flt_0
+from acsql.database.database_interface import session as acs_session
+from acsql.database.database_interface import Master as acs_Master
+from acsql.database.database_interface import WFC_flt_0
+from acsql.utils.utils import SETTINGS
+from pyql.database.ql_database_interface import session as wfc3_session
+from pyql.database.ql_database_interface import Master as wfc3_Master
+from pyql.database.ql_database_interface import UVIS_flt_0
+from pyql.database.ql_database_interface import IR_flt_0
 
 
 def get_images_to_process(instrument):
@@ -64,11 +72,11 @@ def get_images_to_process(instrument):
 
     if instrument == 'WFC3':
 
-        uvis_results = session.query(Master.ql_root, Master.dir)\
+        uvis_results = wfc3_session.query(wfc3_Master.ql_root, wfc3_Master.dir)\
             .join(UVIS_flt_0)\
             .filter(UVIS_flt_0.pr_inv_l == 'Levay').all()
 
-        ir_results = session.query(Master.ql_root, Master.dir)\
+        ir_results = wfc3_session.query(wfc3_Master.ql_root, wfc3_Master.dir)\
             .join(IR_flt_0)\
             .filter(IR_flt_0.pr_inv_l == 'Levay').all()
 
@@ -80,11 +88,29 @@ def get_images_to_process(instrument):
         return images
 
     elif instrument == 'ACS':
-        return []
+
+        results = acs_session.query(acs_Master.path, WFC_flt_0.filename)\
+            .join(WFC_flt_0)\
+            .filter(WFC_flt_0.pr_inv_f == 'Zolt')\
+            .filter(WFC_flt_0.pr_inv_l == 'Levay').all()
+
+        images = ['{}{}/{}'.format(SETTINGS['filesystem'][:-1], item[0], item[1]) for item in results]
+
+        return images
 
     elif instrument == 'STIS':
-        return []
 
+        images = []
+        filenames = glob.glob('/stis/data/*x2d.fits')
+        for filename in filenames:
+            header = fits.getheader(filename, 0)
+            try:
+                if header['DETECTOR'] == 'CCD':
+                    images.append(filename)
+            except:
+                pass
+
+        return images
 
 def make_jpeg(filename, outfile):
     """Create a JPEG file from a raw, flt, or flc FITS file.  If the
@@ -164,6 +190,18 @@ if __name__ == '__main__':
 
     wfc3_images = get_images_to_process('WFC3')
     for filename in wfc3_images:
-        outfile = os.path.join('/user/bourque/repositories/COSC-617-Advanced-Web-Development/hst_image_viewer/models/wfc3/', os.path.basename(filename).replace('_flt.fits', '.jpg'))
+        outfile = os.path.join('/wfc3/', os.path.basename(filename).replace('_flt.fits', '.jpg'))
+        make_jpeg(filename, outfile)
+        make_thumbnail(outfile)
+
+    acs_images = get_images_to_process('ACS')
+    for filename in acs_images:
+        outfile = os.path.join('/acs/', os.path.basename(filename).replace('_flt.fits', '.jpg'))
+        make_jpeg(filename, outfile)
+        make_thumbnail(outfile)
+
+    stis_images = get_images_to_process('STIS')
+    for filename in stis_images:
+        outfile = os.path.join('/stis/', os.path.basename(filename).replace('_x2d.fits', '.jpg'))
         make_jpeg(filename, outfile)
         make_thumbnail(outfile)
